@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Neon Cyber Budget</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="cyber-theme">
+
+  <!-- Theme Selector -->
+  <div class="theme-top">
+    <label for="theme-select">Theme:</label>
+    <select id="theme-select">
+      <option value="default">Default</option>
+      <option value="dark">Dark</option>
+      <option value="nature">Nature</option>
+      <option value="ocean">Ocean</option>
+      <option value="sunset">Sunset</option>
+      <option value="cyber">Cyber Neon</option>
+    </select>
+  </div>
+
+  <div class="auth-wrapper">
+    <div class="auth-box cyber-glow fade-in">
+      <h2>Create Account</h2>
+      <p>Join us and manage your expenses smartly!</p>
+
+      <form id="signup-form">
+        <input type="text" id="signup-username" placeholder="Username" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <input type="password" id="signup-confirm" placeholder="Confirm Password" required>
+        <button type="submit" class="neon-btn">Sign Up</button>
+      </form>
+
+      <p class="switch-auth">Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div id="popup" class="popup hide">
+    <div class="popup-content">
+      <p id="popup-message"></p>
+      <button id="popup-close" class="neon-btn">OK</button>
+    </div>
+  </div>
+
+  <script>
+    // Theme change
+    const themeSelect = document.getElementById("theme-select");
+    themeSelect.addEventListener("change", () => {
+      document.body.className = "";
+      document.body.classList.add(themeSelect.value);
+    });
+
+    // Popup logic
+    const popup = document.getElementById("popup");
+    const popupMessage = document.getElementById("popup-message");
+    const popupClose = document.getElementById("popup-close");
+
+    function showPopup(msg) {
+      popupMessage.innerHTML = msg;
+      popup.classList.remove("hide");
+      popup.style.display = "flex";
+    }
+
+    popupClose.addEventListener("click", () => {
+      popup.classList.add("hide");
+      popup.style.display = "none";
+    });
+
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) {
+        popup.classList.add("hide");
+        popup.style.display = "none";
+      }
+    });
+
+    // Signup Logic
+    document.getElementById("signup-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById("signup-username").value.trim();
+      const password = document.getElementById("signup-password").value.trim();
+      const confirm = document.getElementById("signup-confirm").value.trim();
+
+      if (!username || !password || !confirm) {
+        showPopup("⚠️ Please fill all fields!");
+        return;
+      }
+
+      if (password !== confirm) {
+        showPopup("❌ Passwords do not match!");
+        return;
+      }
+
+      const user = { username, password };
+      localStorage.setItem("budgetUser", JSON.stringify(user));
+      showPopup("✅ Signup successful! Redirecting to login...");
+
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1200);
+    });
+  </script>
+
+</body>
+</html>
