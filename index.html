@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neon Cyber Budget - Track Your Expenses with Style</title>
+  <meta name="description" content="Modern budget tracking app with cyberpunk neon aesthetics. Track expenses, set savings goals, and manage your finances.">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Auth View -->
+  <div id="authView" class="auth-container">
+    <div class="auth-card glass-effect neon-glow-intense animate-glow">
+      <h1 class="auth-title text-neon animate-title-glow">💸 Neon Cyber Budget</h1>
+      <p id="authSubtitle" class="auth-subtitle">Welcome back! Login to continue.</p>
+      
+      <form id="authForm" class="auth-form">
+        <input type="text" id="authUsername" class="input neon-glow" placeholder="Username" required>
+        <input type="password" id="authPassword" class="input neon-glow" placeholder="Password" required>
+        <input type="password" id="authConfirmPassword" class="input neon-glow hidden" placeholder="Confirm Password">
+        <button type="submit" id="authSubmitBtn" class="btn btn-primary btn-lg btn-full">Login</button>
+      </form>
+
+      <p class="auth-switch">
+        <span id="authSwitchText">Don't have an account? </span>
+        <button id="authSwitchBtn">Sign Up</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Dashboard -->
+  <div id="dashboardView" class="container space-y-6 hidden">
+    <!-- Header -->
+    <div class="card glass-effect neon-glow-intense animate-glow">
+      <div class="header">
+        <h1 class="header-title text-neon animate-title-glow">💰 Neon Budget Dashboard</h1>
+        <div class="header-actions">
+          <div class="theme-selector glass-effect neon-glow">
+            <label>Theme:</label>
+            <select id="themeSelect" class="select neon-glow">
+              <option value="cyber">💎 Cyber Neon</option>
+              <option value="ocean">🌊 Ocean</option>
+              <option value="sunset">🌅 Sunset</option>
+              <option value="nature">🌿 Nature</option>
+              <option value="dark">🌙 Dark</option>
+              <option value="purple">💜 Purple</option>
+            </select>
+          </div>
+          <button id="logoutBtn" class="btn btn-outline btn-destructive">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget Summary -->
+    <div class="card glass-effect neon-glow-intense animate-glow">
+      <div class="grid-5">
+        <div class="summary-card glass-effect">
+          <p class="summary-label">Total Budget</p>
+          <p id="summaryBudget" class="summary-value text-primary neon-glow">₹0.00</p>
+        </div>
+        <div class="summary-card glass-effect">
+          <p class="summary-label">Total Expenses</p>
+          <p id="summaryExpenses" class="summary-value text-secondary neon-glow-secondary">₹0.00</p>
+        </div>
+        <div class="summary-card glass-effect">
+          <p class="summary-label">Balance</p>
+          <p id="summaryBalance" class="summary-value text-success neon-glow">₹0.00</p>
+        </div>
+        <div class="summary-card glass-effect">
+          <p class="summary-label">Daily Income</p>
+          <p id="summaryIncome" class="summary-value text-accent neon-glow">₹0.00</p>
+        </div>
+        <div class="summary-card glass-effect">
+          <p class="summary-label">Savings Goal</p>
+          <p id="summarySavings" class="summary-value text-primary neon-glow">₹0.00</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forms Grid -->
+    <div class="grid-3">
+      <!-- Budget Form -->
+      <div class="card glass-effect neon-glow animate-glow">
+        <h3 class="card-title">Set Budget</h3>
+        <form id="budgetForm" class="form-group">
+          <input type="number" id="budgetInput" class="input" placeholder="Enter Total Budget" step="0.01" required>
+          <input type="number" id="dailyIncomeInput" class="input" placeholder="Daily Income (Optional)" step="0.01">
+          <button type="submit" class="btn btn-primary btn-full">Set Budget</button>
+        </form>
+      </div>
+
+      <!-- Savings Form -->
+      <div class="card glass-effect neon-glow animate-glow">
+        <h3 class="card-title">Set Savings Goal</h3>
+        <form id="savingsForm" class="form-group">
+          <input type="number" id="savingsInput" class="input" placeholder="Target Savings Amount" step="0.01" required>
+          <button type="submit" class="btn btn-primary btn-full">Set Goal</button>
+        </form>
+      </div>
+
+      <!-- Expense Form -->
+      <div class="card glass-effect neon-glow animate-glow">
+        <h3 id="expenseFormTitle" class="card-title">Add Expense</h3>
+        <form id="expenseForm" class="form-group">
+          <input type="text" id="expenseTitle" class="input" placeholder="Expense Title" required>
+          <input type="number" id="expenseAmount" class="input" placeholder="Expense Amount" step="0.01" required>
+          <select id="expenseCategory" class="select">
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Bills">Bills</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Others">Others</option>
+          </select>
+          <input type="text" id="customCategory" class="input hidden" placeholder="Enter Custom Category">
+          <input type="text" id="expenseNote" class="input" placeholder="Add note (optional)">
+          <select id="expenseRecurring" class="select">
+            <option value="none">No Recurring</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+          <div class="flex-gap">
+            <button type="submit" class="btn btn-primary flex-1">Add Expense</button>
+            <button type="button" id="cancelEditBtn" class="btn btn-outline btn-destructive hidden">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Expense List -->
+    <div class="card glass-effect neon-glow animate-glow">
+      <div class="expense-list-header">
+        <h3 class="card-title" style="margin-bottom: 0;">Expense History</h3>
+        <div class="expense-list-actions">
+          <button id="exportBtn" class="btn btn-outline btn-sm">📤 Export CSV</button>
+          <button id="clearAllBtn" class="btn btn-outline btn-destructive btn-sm">🗑️ Clear All</button>
+        </div>
+      </div>
+      <div id="expenseList" class="expense-list-container">
+        <p class="empty-state">No expenses yet. Add your first expense!</p>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="card glass-effect neon-glow-intense animate-glow">
+      <div class="chart-container">
+        <canvas id="expenseChart"></canvas>
+      </div>
+      <p id="chartEmpty" class="empty-state hidden">No expense data to display. Add some expenses to see the chart!</p>
+    </div>
+  </div>
+
+  <!-- External JS -->
+  <script src="script.js"></script>
+</body>
+</html>
