@@ -6,7 +6,7 @@ Track your expenses, set budgets and savings goals, switch between neon themes, 
 ---
 
 🌐 **Live Website:**  
-👉 https://deekshi122005.github.io/neon-cyber-budget/
+👉 https://deekshi122005.github.io/BudgetAppPro/
 
 ---
 
